@@ -126,6 +126,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="12dp"/>
 
+    <Spinner
+        android:id="@+id/innerShapeSpinner"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/checkHollow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
     <EditText
         android:id="@+id/inputIW"
         android:layout_width="200dp"
@@ -134,6 +144,18 @@
         android:inputType="numberDecimal"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/checkHollow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
+    <EditText
+        android:id="@+id/inputID"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="内奥行(cm)"
+        android:inputType="numberDecimal"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/inputIW"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="12dp"/>
