@@ -138,4 +138,42 @@ public class MainActivity extends AppCompatActivity {
                 return 0;
         }
     }
+    private Result calcPlaster(
+            String shape,
+            double w, double d, double h,
+            boolean hollow,
+            double iw, double id, double ih,
+            int count,
+            double lossPercent,
+            double yieldVal,
+            double mixWater
+    ){
+        double vol = volume(shape, w, d, h);
+
+        if(hollow){
+            vol -= volume(shape, iw, id, ih);
+        }
+
+        vol *= count * (1.0 + lossPercent / 100.0);
+
+        double plasterKg = vol / yieldVal;
+        double waterMl = plasterKg * mixWater;
+
+        return new Result(vol, plasterKg, waterMl);
+    }
+
+    static class Result {
+        double volume;
+        double plasterKg;
+        double waterMl;
+
+        Result(double volume, double plasterKg, double waterMl) {
+            this.volume = volume;
+            this.plasterKg = plasterKg;
+            this.waterMl = waterMl;
+        }
+    }
+
 }
+
+
