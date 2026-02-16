@@ -10,6 +10,8 @@ import androidx.core.view.WindowInsetsCompat;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.ArrayAdapter;
 
 
 
@@ -29,6 +31,19 @@ public class MainActivity extends AppCompatActivity {
         TextView resultText = findViewById(R.id.resultText);
         EditText inputW = findViewById(R.id.inputW);
         EditText inputH = findViewById(R.id.inputH);
+        Spinner shapeSpinner = findViewById(R.id.shapeSpinner);
+        String[] shapes = {"円柱", "直方体", "円錐"};
+
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<>(this,
+                        android.R.layout.simple_spinner_item,
+                        shapes);
+
+        adapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item);
+
+        shapeSpinner.setAdapter(adapter);
+
 
 
         testButton.setOnClickListener(v -> {
@@ -44,7 +59,20 @@ public class MainActivity extends AppCompatActivity {
             double w = Double.parseDouble(wStr);
             double h = Double.parseDouble(hStr);
 
-            double v1 = volume("cylinder", w, 0, h);
+            String selected = shapeSpinner.getSelectedItem().toString();
+
+            String shape;
+
+            if(selected.equals("円柱")){
+                shape = "cylinder";
+            }else if(selected.equals("直方体")){
+                shape = "box";
+            }else{
+                shape = "cone";
+            }
+
+            double v1 = volume(shape, w, 0, h);
+
 
             resultText.setText("体積 = " + v1);
 
