@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Plaster Calculator</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f5f5f5;
+      padding: 40px;
+    }
+    .card {
+      max-width: 420px;
+      margin: auto;
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+    button {
+      margin-top: 16px;
+      background: #4f46e5;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 16px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Plaster Calculator</h1>
+
+    <label>形状</label>
+    <select id="shape">
+      <option value="cylinder">円柱</option>
+      <option value="box">直方体</option>
+      <option value="cone">円錐</option>
+    </select>
+
+    <label>直径 / 幅 (cm)</label>
+    <input type="number" id="size1" />
+
+    <label>奥行 (cm) ※直方体のみ</label>
+    <input type="number" id="size2" />
+
+    <label>高さ (cm)</label>
+    <input type="number" id="height" />
+
+    <label>石膏比率</label>
+    <input type="number" id="plasterRatio" value="100" />
+
+    <label>水比率</label>
+    <input type="number" id="waterRatio" value="70" />
+
+    <button onclick="calculate()">計算</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+<script>
+function calculate() {
+  const shape = document.getElementById("shape").value;
+  const s1 = parseFloat(document.getElementById("size1").value);
+  const s2 = parseFloat(document.getElementById("size2").value);
+  const h = parseFloat(document.getElementById("height").value);
+  const pr = parseFloat(document.getElementById("plasterRatio").value);
+  const wr = parseFloat(document.getElementById("waterRatio").value);
+  const loss = parseFloat(document.getElementById("loss").value) || 0;
+
+  const hollow = document.getElementById("hollow").checked;
+  const hs1 = parseFloat(document.getElementById("hSize1").value);
+  const hs2 = parseFloat(document.getElementById("hSize2").value);
+  const hh = parseFloat(document.getElementById("hHeight").value);
+
+  if (!s1 || !h) {
+    alert("サイズを入力してください");
+    return;
+  }
+
+  let outer = 0;
+  let inner = 0;
+
+  // 外形
+  if (shape === "cylinder") outer = Math.PI * (s1/2)**2 * h;
+  if (shape === "box") outer = s1 * s2 * h;
+  if (shape === "cone") outer = Math.PI * (s1/2)**2 * h / 3;
+
+  // 内部（中空）
+  if (hollow) {
+    if (shape === "cylinder") inner = Math.PI * (hs1/2)**2 * hh;
+    if (shape === "box") inner = hs1 * hs2 * hh;
+  }
+
+  const volume = outer - inner;
+
+  const plaster = volume * pr / (pr + wr);
+  const water = volume * wr / (pr + wr);
+
+  const plasterLoss = plaster * (1 + loss/100);
+  const waterLoss = water * (1 + loss/100);
+
+  document.getElementById("result").innerText =
+`実体積: ${volume.toFixed(1)} cm³
+石膏: ${plasterLoss.toFixed(1)} g
+水: ${waterLoss.toFixed(1)} g`;
+}
+</script>
+</body>
+</html>
