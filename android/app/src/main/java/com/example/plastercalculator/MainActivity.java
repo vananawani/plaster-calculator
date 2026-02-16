@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
         EditText inputD = findViewById(R.id.inputD);
         Spinner shapeSpinner = findViewById(R.id.shapeSpinner);
         String[] shapes = {"円柱", "直方体", "円錐"};
+        EditText inputMixWater = findViewById(R.id.inputMixWater);
+        EditText inputYield = findViewById(R.id.inputYield);
+
 
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<>(this,
@@ -111,10 +114,37 @@ public class MainActivity extends AppCompatActivity {
                 d = Double.parseDouble(dStr);
             }
 
-            double v1 = volume(shape, w, d, h);
+            String mixStr = inputMixWater.getText().toString();
+            String yieldStr = inputYield.getText().toString();
 
+            if(mixStr.isEmpty() || yieldStr.isEmpty()){
+                resultText.setText("素材情報を入力してください");
+                return;
+            }
 
-            resultText.setText(String.format("体積 = %.2f", v1));
+            double mixWater = Double.parseDouble(mixStr);
+            double yieldVal = Double.parseDouble(yieldStr);
+
+            Result r = calcPlaster(
+                    shape,
+                    w, d, h,
+                    false,
+                    0, 0, 0,
+                    1,
+                    0,
+                    yieldVal,
+                    mixWater
+            );
+
+            resultText.setText(
+                    String.format(
+                            "完成体積：%.1f cm3\n石膏：約 %.0f g\n水：約 %.0f ml",
+                            r.volume,
+                            r.plasterKg * 1000,
+                            r.waterMl
+                    )
+            );
+
 
         });
 
