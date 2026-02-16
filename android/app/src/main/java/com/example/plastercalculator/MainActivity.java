@@ -21,4 +21,22 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
     }
+
+
+    private double volume(String shape, double w, double d, double h) {
+
+        switch (shape) {
+            case "cylinder":
+                return Math.PI * Math.pow(w / 2.0, 2) * h;
+
+            case "box":
+                return w * d * h;
+
+            case "cone":
+                return Math.PI * Math.pow(w / 2.0, 2) * h / 3.0;
+
+            default:
+                return 0;
+        }
+    }
 }
