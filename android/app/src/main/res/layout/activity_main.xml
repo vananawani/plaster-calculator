@@ -41,6 +41,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="12dp"/>
 
+    <EditText
+        android:id="@+id/inputD"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="奥行き(cm)"
+        android:inputType="numberDecimal"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/inputH"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
     <Spinner
         android:id="@+id/shapeSpinner"
         android:layout_width="200dp"

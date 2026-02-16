@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.AdapterView;
 
 
 
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         TextView resultText = findViewById(R.id.resultText);
         EditText inputW = findViewById(R.id.inputW);
         EditText inputH = findViewById(R.id.inputH);
+        EditText inputD = findViewById(R.id.inputD);
         Spinner shapeSpinner = findViewById(R.id.shapeSpinner);
         String[] shapes = {"円柱", "直方体", "円錐"};
 
@@ -43,6 +46,30 @@ public class MainActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_dropdown_item);
 
         shapeSpinner.setAdapter(adapter);
+
+        shapeSpinner.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent,
+                                               View view,
+                                               int position,
+                                               long id) {
+
+                        String s = parent.getItemAtPosition(position).toString();
+
+                        if(s.equals("直方体")){
+                            inputD.setVisibility(View.VISIBLE);
+                        }else{
+                            inputD.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                }
+        );
 
 
 
@@ -71,7 +98,20 @@ public class MainActivity extends AppCompatActivity {
                 shape = "cone";
             }
 
-            double v1 = volume(shape, w, 0, h);
+            double d = 0;
+
+            if(shape.equals("box")){
+                String dStr = inputD.getText().toString();
+
+                if(dStr.isEmpty()){
+                    resultText.setText("奥行きを入力してください");
+                    return;
+                }
+
+                d = Double.parseDouble(dStr);
+            }
+
+            double v1 = volume(shape, w, d, h);
 
 
             resultText.setText("体積 = " + v1);
