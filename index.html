@@ -22,70 +22,47 @@ body {
   box-shadow: 0 8px 24px rgba(0,0,0,0.05);
 }
 
-h1 {
-  font-size: 20px;
-  margin-bottom: 16px;
-  text-align: center;
-  color: #6b6bd6;
-}
+h1 { text-align:center; color:#6b6bd6; }
 
-h2 {
-  font-size: 13px;
-  margin-top: 20px;
-  margin-bottom: 6px;
-  color: #999;
-  font-weight: 600;
-}
-
-label {
-  display: block;
-  margin-top: 12px;
-  font-size: 13px;
-}
+label { display:block; margin-top:12px; font-size:13px; }
 
 input, select {
-  width: 100%;
-  padding: 10px 12px;
-  margin-top: 4px;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-  font-size: 14px;
-  background: #fafafa;
+  width:100%;
+  padding:10px;
+  margin-top:4px;
+  border-radius:12px;
+  border:1px solid #e5e7eb;
 }
 
-.checkbox {
+/* ←ここが重要 */
+.checkbox-row {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-top: 12px;
 }
 
-.checkbox input {
+.checkbox-row input {
   width: auto;
+  margin: 0;
 }
 
+.hidden { display:none; }
+
 button {
-  width: 100%;
-  margin-top: 24px;
-  padding: 12px;
-  border: none;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #a5b4fc, #c7d2fe);
-  color: #3f3f8f;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
+  width:100%;
+  margin-top:20px;
+  padding:12px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(135deg,#a5b4fc,#c7d2fe);
 }
 
 .result {
-  margin-top: 20px;
-  padding: 16px;
-  border-radius: 16px;
-  background: #f1f5ff;
-  color: #4c4cb3;
-  font-size: 14px;
-  line-height: 1.6;
-  min-height: 40px;
+  margin-top:20px;
+  padding:16px;
+  border-radius:16px;
+  background:#f1f5ff;
 }
 </style>
 </head>
@@ -94,10 +71,8 @@ button {
 <div class="card">
 <h1>Plaster Calculator</h1>
 
-<h2>基本設定</h2>
-
 <label>形状</label>
-<select id="shape">
+<select id="shape" onchange="updateUI()">
   <option value="cylinder">円柱</option>
   <option value="box">直方体</option>
   <option value="cone">円錐</option>
@@ -109,34 +84,41 @@ button {
 <label>ロス率 (%)</label>
 <input type="number" id="loss" value="10">
 
-<h2>外形サイズ (cm)</h2>
+<h3>外形サイズ (cm)</h3>
 
 <label>直径 / 幅</label>
 <input type="number" id="w">
 
-<label>奥行</label>
-<input type="number" id="d">
+<div id="depthGroup">
+  <label>奥行</label>
+  <input type="number" id="d">
+</div>
 
 <label>高さ</label>
 <input type="number" id="h">
 
-<h2>中空設定</h2>
+<h3>中空設定</h3>
 
-<div class="checkbox">
-  <input type="checkbox" id="hollow">
+<!-- ★完全横並び -->
+<label class="checkbox-row">
+  <input type="checkbox" id="hollow" onchange="updateUI()">
   <span>くり抜き考慮</span>
+</label>
+
+<div id="innerGroup">
+  <label>内径 / 内幅</label>
+  <input type="number" id="iw">
+
+  <div id="innerDepth">
+    <label>内奥行</label>
+    <input type="number" id="id">
+  </div>
+
+  <label>内高さ</label>
+  <input type="number" id="ih">
 </div>
 
-<label>内径 / 内幅</label>
-<input type="number" id="iw">
-
-<label>内奥行</label>
-<input type="number" id="id">
-
-<label>内高さ</label>
-<input type="number" id="ih">
-
-<h2>材料設定</h2>
+<h3>材料設定</h3>
 
 <label>石膏比率</label>
 <input type="number" id="plaster" value="100">
@@ -146,62 +128,60 @@ button {
 
 <button onclick="calc()">計算する</button>
 
-<div class="result" id="result">ここに計算結果が表示されます</div>
+<div class="result" id="result">ここに計算結果</div>
 </div>
 
 <script>
 function volume(shape, w, d, h) {
-  if (shape === "cylinder") {
-    let r = w / 2;
-    return Math.PI * r * r * h;
-  }
-  if (shape === "box") {
-    return w * d * h;
-  }
-  if (shape === "cone") {
-    let r = w / 2;
-    return (Math.PI * r * r * h) / 3;
-  }
+  if (shape === "cylinder") return Math.PI * (w/2)**2 * h;
+  if (shape === "box") return w * d * h;
+  if (shape === "cone") return Math.PI * (w/2)**2 * h / 3;
   return 0;
 }
 
+function updateUI() {
+  const shape = shapeEl.value;
+  const hollow = hollowEl.checked;
+
+  depthGroup.classList.toggle("hidden", shape !== "box");
+  innerDepth.classList.toggle("hidden", shape !== "box");
+  innerGroup.classList.toggle("hidden", !hollow);
+}
+
 function calc() {
-  const shape = document.getElementById("shape").value;
-  const count = Number(document.getElementById("count").value);
-  const loss = Number(document.getElementById("loss").value) / 100;
+  let vol = volume(shapeEl.value, +wEl.value, +dEl.value, +hEl.value);
 
-  const w = Number(document.getElementById("w").value);
-  const d = Number(document.getElementById("d").value);
-  const h = Number(document.getElementById("h").value);
-
-  let vol = volume(shape, w, d, h);
-
-  const hollow = document.getElementById("hollow").checked;
-
-  if (hollow) {
-    const iw = Number(document.getElementById("iw").value);
-    const id = Number(document.getElementById("id").value);
-    const ih = Number(document.getElementById("ih").value);
-
-    vol -= volume(shape, iw, id, ih);
+  if (hollowEl.checked) {
+    vol -= volume(shapeEl.value, +iwEl.value, +idEl.value, +ihEl.value);
   }
 
-  vol *= count;
-  vol *= (1 + loss);
+  vol *= +countEl.value * (1 + +lossEl.value / 100);
 
-  const plasterRatio = Number(document.getElementById("plaster").value);
-  const waterRatio = Number(document.getElementById("water").value);
+  const total = +plasterEl.value + +waterEl.value;
+  const plaster = vol * (+plasterEl.value / total);
+  const water = vol * (+waterEl.value / total);
 
-  const total = plasterRatio + waterRatio;
-
-  const plaster = vol * (plasterRatio / total);
-  const water = vol * (waterRatio / total);
-
-  document.getElementById("result").innerHTML =
-    `必要体積：約 ${vol.toFixed(1)} cm³<br>
+  result.innerHTML =
+    `体積：約 ${vol.toFixed(1)} cm³<br>
      石膏：約 ${plaster.toFixed(1)} g<br>
      水：約 ${water.toFixed(1)} g`;
 }
+
+const shapeEl = document.getElementById("shape");
+const countEl = document.getElementById("count");
+const lossEl = document.getElementById("loss");
+const wEl = document.getElementById("w");
+const dEl = document.getElementById("d");
+const hEl = document.getElementById("h");
+const hollowEl = document.getElementById("hollow");
+const iwEl = document.getElementById("iw");
+const idEl = document.getElementById("id");
+const ihEl = document.getElementById("ih");
+const plasterEl = document.getElementById("plaster");
+const waterEl = document.getElementById("water");
+const result = document.getElementById("result");
+
+updateUI();
 </script>
 </body>
 </html>
