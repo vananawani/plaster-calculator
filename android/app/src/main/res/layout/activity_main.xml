@@ -94,5 +94,61 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="12dp"/>
 
+    <EditText
+        android:id="@+id/inputCount"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="個数"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@id/inputYield"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
+    <EditText
+        android:id="@+id/inputLoss"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="ロス率(%)"
+        android:inputType="numberDecimal"
+        app:layout_constraintTop_toBottomOf="@id/inputCount"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
+    <CheckBox
+        android:id="@+id/checkHollow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="くり抜き考慮"
+        app:layout_constraintTop_toBottomOf="@id/inputLoss"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
+    <EditText
+        android:id="@+id/inputIW"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="内径(cm)"
+        android:inputType="numberDecimal"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/checkHollow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
+    <EditText
+        android:id="@+id/inputIH"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="内高さ(cm)"
+        android:inputType="numberDecimal"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/inputIW"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 
 
 
@@ -38,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
         String[] shapes = {"円柱", "直方体", "円錐"};
         EditText inputMixWater = findViewById(R.id.inputMixWater);
         EditText inputYield = findViewById(R.id.inputYield);
+        EditText inputCount = findViewById(R.id.inputCount);
+        EditText inputLoss = findViewById(R.id.inputLoss);
+        CheckBox checkHollow = findViewById(R.id.checkHollow);
+        EditText inputIW = findViewById(R.id.inputIW);
+        EditText inputIH = findViewById(R.id.inputIH);
 
 
         ArrayAdapter<String> adapter =
@@ -125,16 +131,44 @@ public class MainActivity extends AppCompatActivity {
             double mixWater = Double.parseDouble(mixStr);
             double yieldVal = Double.parseDouble(yieldStr);
 
+            int count = 1;
+            double loss = 0;
+
+            if(!inputCount.getText().toString().isEmpty()){
+                count = Integer.parseInt(inputCount.getText().toString());
+            }
+
+            if(!inputLoss.getText().toString().isEmpty()){
+                loss = Double.parseDouble(inputLoss.getText().toString());
+            }
+
+            boolean hollow = checkHollow.isChecked();
+
+            double iw = 0;
+            double ih = 0;
+
+            if(hollow){
+                if(inputIW.getText().toString().isEmpty()
+                        || inputIH.getText().toString().isEmpty()){
+                    resultText.setText("内径と内高さを入力してください");
+                    return;
+                }
+
+                iw = Double.parseDouble(inputIW.getText().toString());
+                ih = Double.parseDouble(inputIH.getText().toString());
+            }
+
             Result r = calcPlaster(
                     shape,
                     w, d, h,
-                    false,
-                    0, 0, 0,
-                    1,
-                    0,
+                    hollow,
+                    iw, 0, ih,
+                    count,
+                    loss,
                     yieldVal,
                     mixWater
             );
+
 
             resultText.setText(
                     String.format(
@@ -148,6 +182,15 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        checkHollow.setOnCheckedChangeListener((b, checked) -> {
+            if(checked){
+                inputIW.setVisibility(View.VISIBLE);
+                inputIH.setVisibility(View.VISIBLE);
+            }else{
+                inputIW.setVisibility(View.GONE);
+                inputIH.setVisibility(View.GONE);
+            }
+        });
 
     }
 
