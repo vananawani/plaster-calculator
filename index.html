@@ -8,19 +8,54 @@
 <style>
 body{font-family:sans-serif;background:#f7f7fb;padding:24px}
 .card{max-width:420px;margin:auto;background:#fff;padding:24px;border-radius:20px;box-shadow:0 8px 24px rgba(0,0,0,.05)}
+.title{
+  text-align:center;
+  font-size:20px;
+  color:#6b6bd6;
+  margin-bottom:16px;
+}
+.section{
+  font-size:13px;
+  color:#999;
+  margin-top:20px;
+  margin-bottom:6px;
+  font-weight:600;
+}
 label{display:block;margin-top:12px;font-size:13px}
 input,select{width:100%;padding:10px;margin-top:4px;border-radius:12px;border:1px solid #e5e7eb}
 .checkbox-row{display:flex;align-items:center;gap:8px;margin-top:12px}
 .checkbox-row input{width:auto;margin:0}
-button{width:100%;margin-top:20px;padding:12px;border:none;border-radius:14px;background:linear-gradient(135deg,#a5b4fc,#c7d2fe)}
-.result{margin-top:20px;padding:16px;border-radius:16px;background:#f1f5ff}
+button{
+  width:100%;
+  margin-top:24px;
+  padding:12px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(135deg,#a5b4fc,#c7d2fe);
+  color:#3f3f8f;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+}
+.result{
+  margin-top:20px;
+  padding:16px;
+  border-radius:16px;
+  background:#f1f5ff;
+  color:#4c4cb3;
+  font-size:14px;
+  line-height:1.6;
+  min-height:40px;
+}
 .hidden{display:none}
 </style>
 </head>
 
 <body>
 <div class="card">
+<h1 class="title">Plaster Calculator</h1>
 
+<h2 class="section">基本設定</h2>
 <label>形状</label>
 <select id="shape" onchange="updateUI()">
 <option value="cylinder">円柱</option>
@@ -34,7 +69,7 @@ button{width:100%;margin-top:20px;padding:12px;border:none;border-radius:14px;ba
 <label>ロス率 (%)</label>
 <input type="number" id="loss" value="10">
 
-<h3>外形サイズ(cm)</h3>
+<h2 class="section">外径サイズ(cm)</h2>
 
 <label>直径 / 幅</label>
 <input type="number" id="w">
@@ -47,7 +82,7 @@ button{width:100%;margin-top:20px;padding:12px;border:none;border-radius:14px;ba
 <label>高さ</label>
 <input type="number" id="h">
 
-<h3>くり抜き部分（cm）</h3>
+<h2 class="section">くり抜き部分(cm)</h2>
 <label class="checkbox-row">
 <input type="checkbox" id="hollow" onchange="updateUI()">
 <span>くり抜き考慮</span>
@@ -66,7 +101,7 @@ button{width:100%;margin-top:20px;padding:12px;border:none;border-radius:14px;ba
 <input type="number" id="ih">
 </div>
 
-<h3>素材情報</h3>
+<h2 class="section">素材情報</h2>
 
 <label>混水量 (ml / 石膏1kg)</label>
 <input type="number" id="mixWater" placeholder="例：420">
