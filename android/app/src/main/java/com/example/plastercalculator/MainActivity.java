@@ -261,13 +261,16 @@ public class MainActivity extends AppCompatActivity {
                 innerShapeSpinner.setVisibility(View.VISIBLE);
                 inputIW.setVisibility(View.VISIBLE);
                 inputIH.setVisibility(View.VISIBLE);
+
+                // 内側が直方体のときだけ innerID は別で表示制御される
             }else{
                 innerShapeSpinner.setVisibility(View.GONE);
                 inputIW.setVisibility(View.GONE);
                 inputIH.setVisibility(View.GONE);
-                inputD.setVisibility(View.GONE); // 念のため
+                inputID.setVisibility(View.GONE);   // ← これを追加
             }
         });
+
 
     }
 

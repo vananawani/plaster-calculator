@@ -2,12 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
+    <!-- タイトル -->
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
@@ -20,27 +19,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"/>
 
-    <TextView
-        android:id="@+id/resultText"
-        android:layout_width="wrap_content"
+    <!-- 外側形状 -->
+    <Spinner
+        android:id="@+id/shapeSpinner"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="結果表示"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/shapeSpinner"
+        app:layout_constraintTop_toBottomOf="@id/titleText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="12dp"/>
 
+    <!-- 外側サイズ -->
     <EditText
         android:id="@+id/inputW"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:hint="直径(cm)"
         android:inputType="numberDecimal"
-        app:layout_constraintTop_toBottomOf="@id/resultText"
+        app:layout_constraintTop_toBottomOf="@id/shapeSpinner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"/>
+        android:layout_marginTop="16dp"/>
 
     <EditText
         android:id="@+id/inputH"
@@ -51,7 +50,7 @@
         app:layout_constraintTop_toBottomOf="@id/inputW"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="8dp"/>
 
     <EditText
         android:id="@+id/inputD"
@@ -63,25 +62,16 @@
         app:layout_constraintTop_toBottomOf="@id/inputH"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="8dp"/>
 
-    <Spinner
-        android:id="@+id/shapeSpinner"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/titleText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"/>
-
-
+    <!-- 素材情報など -->
     <EditText
         android:id="@+id/inputMixWater"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:hint="混水量 (ml / 石膏1kg)"
         android:inputType="numberDecimal"
-        app:layout_constraintTop_toBottomOf="@id/testButton"
+        app:layout_constraintTop_toBottomOf="@id/inputD"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"/>
@@ -95,7 +85,7 @@
         app:layout_constraintTop_toBottomOf="@id/inputMixWater"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="8dp"/>
 
     <EditText
         android:id="@+id/inputCount"
@@ -106,7 +96,7 @@
         app:layout_constraintTop_toBottomOf="@id/inputYield"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="8dp"/>
 
     <EditText
         android:id="@+id/inputLoss"
@@ -117,8 +107,9 @@
         app:layout_constraintTop_toBottomOf="@id/inputCount"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="8dp"/>
 
+    <!-- くり抜き -->
     <CheckBox
         android:id="@+id/checkHollow"
         android:layout_width="wrap_content"
@@ -129,6 +120,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="12dp"/>
 
+    <!-- 内側形状 -->
     <Spinner
         android:id="@+id/innerShapeSpinner"
         android:layout_width="200dp"
@@ -137,7 +129,7 @@
         app:layout_constraintTop_toBottomOf="@id/checkHollow"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="8dp"/>
 
     <EditText
         android:id="@+id/inputIW"
@@ -149,19 +141,7 @@
         app:layout_constraintTop_toBottomOf="@id/innerShapeSpinner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"/>
-
-    <EditText
-        android:id="@+id/inputID"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:hint="内奥行(cm)"
-        android:inputType="numberDecimal"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/inputIH"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="8dp"/>
 
     <EditText
         android:id="@+id/inputIH"
@@ -173,8 +153,21 @@
         app:layout_constraintTop_toBottomOf="@id/inputIW"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="8dp"/>
 
+    <EditText
+        android:id="@+id/inputID"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="内奥行(cm)"
+        android:inputType="numberDecimal"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/inputIH"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <!-- 計算ボタン -->
     <Button
         android:id="@+id/testButton"
         android:layout_width="wrap_content"
@@ -183,7 +176,19 @@
         app:layout_constraintTop_toBottomOf="@id/inputID"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"/>
+        android:layout_marginTop="16dp"/>
+
+    <!-- 結果 -->
+    <TextView
+        android:id="@+id/resultText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="結果"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/testButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
