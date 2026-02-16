@@ -19,12 +19,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="60dp"/>
 
+    <EditText
+        android:id="@+id/inputW"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="直径(cm)"
+        android:inputType="numberDecimal"
+        app:layout_constraintTop_toBottomOf="@id/resultText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"/>
+
+    <EditText
+        android:id="@+id/inputH"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="高さ(cm)"
+        android:inputType="numberDecimal"
+        app:layout_constraintTop_toBottomOf="@id/inputW"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
     <Button
         android:id="@+id/testButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="体積テスト"
-        app:layout_constraintTop_toBottomOf="@id/resultText"
+        app:layout_constraintTop_toBottomOf="@id/inputH"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="24dp"/>

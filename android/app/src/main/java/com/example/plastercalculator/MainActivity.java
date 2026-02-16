@@ -9,6 +9,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.EditText;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -25,13 +27,29 @@ public class MainActivity extends AppCompatActivity {
         });
         Button testButton = findViewById(R.id.testButton);
         TextView resultText = findViewById(R.id.resultText);
+        EditText inputW = findViewById(R.id.inputW);
+        EditText inputH = findViewById(R.id.inputH);
+
 
         testButton.setOnClickListener(v -> {
 
-            double v1 = volume("cylinder", 10, 0, 5);
+            String wStr = inputW.getText().toString();
+            String hStr = inputH.getText().toString();
+
+            if(wStr.isEmpty() || hStr.isEmpty()){
+                resultText.setText("数値を入力してください");
+                return;
+            }
+
+            double w = Double.parseDouble(wStr);
+            double h = Double.parseDouble(hStr);
+
+            double v1 = volume("cylinder", w, 0, h);
+
             resultText.setText("体積 = " + v1);
 
         });
+
 
     }
 
