@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import android.widget.Button;
+import android.widget.TextView;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +23,16 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        Button testButton = findViewById(R.id.testButton);
+        TextView resultText = findViewById(R.id.resultText);
+
+        testButton.setOnClickListener(v -> {
+
+            double v1 = volume("cylinder", 10, 0, 5);
+            resultText.setText("体積 = " + v1);
+
+        });
+
     }
 
 
