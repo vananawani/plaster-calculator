@@ -1,81 +1,31 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Plaster Calculator</title>
 
 <style>
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #f7f7fb;
-  padding: 24px;
-  color: #444;
-}
-
-.card {
-  max-width: 420px;
-  margin: auto;
-  background: #ffffff;
-  padding: 24px;
-  border-radius: 20px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
-}
-
-h1 { text-align:center; color:#6b6bd6; }
-
-label { display:block; margin-top:12px; font-size:13px; }
-
-input, select {
-  width:100%;
-  padding:10px;
-  margin-top:4px;
-  border-radius:12px;
-  border:1px solid #e5e7eb;
-}
-
-/* ←ここが重要 */
-.checkbox-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.checkbox-row input {
-  width: auto;
-  margin: 0;
-}
-
-.hidden { display:none; }
-
-button {
-  width:100%;
-  margin-top:20px;
-  padding:12px;
-  border:none;
-  border-radius:14px;
-  background:linear-gradient(135deg,#a5b4fc,#c7d2fe);
-}
-
-.result {
-  margin-top:20px;
-  padding:16px;
-  border-radius:16px;
-  background:#f1f5ff;
-}
+body{font-family:sans-serif;background:#f7f7fb;padding:24px}
+.card{max-width:420px;margin:auto;background:#fff;padding:24px;border-radius:20px;box-shadow:0 8px 24px rgba(0,0,0,.05)}
+label{display:block;margin-top:12px;font-size:13px}
+input,select{width:100%;padding:10px;margin-top:4px;border-radius:12px;border:1px solid #e5e7eb}
+.checkbox-row{display:flex;align-items:center;gap:8px;margin-top:12px}
+.checkbox-row input{width:auto;margin:0}
+button{width:100%;margin-top:20px;padding:12px;border:none;border-radius:14px;background:linear-gradient(135deg,#a5b4fc,#c7d2fe)}
+.result{margin-top:20px;padding:16px;border-radius:16px;background:#f1f5ff}
+.hidden{display:none}
 </style>
 </head>
 
 <body>
 <div class="card">
-<h1>Plaster Calculator</h1>
 
 <label>形状</label>
 <select id="shape" onchange="updateUI()">
-  <option value="cylinder">円柱</option>
-  <option value="box">直方体</option>
-  <option value="cone">円錐</option>
+<option value="cylinder">円柱</option>
+<option value="box">直方体</option>
+<option value="cone">円錐</option>
 </select>
 
 <label>個数</label>
@@ -84,104 +34,112 @@ button {
 <label>ロス率 (%)</label>
 <input type="number" id="loss" value="10">
 
-<h3>外形サイズ (cm)</h3>
+<h3>外形サイズ(cm)</h3>
 
 <label>直径 / 幅</label>
 <input type="number" id="w">
 
 <div id="depthGroup">
-  <label>奥行</label>
-  <input type="number" id="d">
+<label>奥行</label>
+<input type="number" id="d">
 </div>
 
 <label>高さ</label>
 <input type="number" id="h">
 
-<h3>中空設定</h3>
-
-<!-- ★完全横並び -->
+<h3>くり抜き部分（cm）</h3>
 <label class="checkbox-row">
-  <input type="checkbox" id="hollow" onchange="updateUI()">
-  <span>くり抜き考慮</span>
+<input type="checkbox" id="hollow" onchange="updateUI()">
+<span>くり抜き考慮</span>
 </label>
 
 <div id="innerGroup">
-  <label>内径 / 内幅</label>
-  <input type="number" id="iw">
+<label>内径 / 内幅</label>
+<input type="number" id="iw">
 
-  <div id="innerDepth">
-    <label>内奥行</label>
-    <input type="number" id="id">
-  </div>
-
-  <label>内高さ</label>
-  <input type="number" id="ih">
+<div id="innerDepth">
+<label>内奥行</label>
+<input type="number" id="id">
 </div>
 
-<h3>材料設定</h3>
+<label>内高さ</label>
+<input type="number" id="ih">
+</div>
 
-<label>石膏比率</label>
-<input type="number" id="plaster" value="100">
+<h3>素材情報</h3>
 
-<label>水比率</label>
-<input type="number" id="water" value="70">
+<label>混水量 (ml / 石膏1kg)</label>
+<input type="number" id="mixWater" placeholder="例：420">
+
+<label>硬化体容積 (cm³ / 石膏1kg)</label>
+<input type="number" id="yield" placeholder="例：790">
 
 <button onclick="calc()">計算する</button>
 
-<div class="result" id="result">ここに計算結果</div>
+<div class="result" id="result">ここに結果</div>
 </div>
 
 <script>
-function volume(shape, w, d, h) {
-  if (shape === "cylinder") return Math.PI * (w/2)**2 * h;
-  if (shape === "box") return w * d * h;
-  if (shape === "cone") return Math.PI * (w/2)**2 * h / 3;
-  return 0;
+function volume(shape,w,d,h){
+if(shape==="cylinder")return Math.PI*(w/2)**2*h
+if(shape==="box")return w*d*h
+if(shape==="cone")return Math.PI*(w/2)**2*h/3
+return 0
 }
 
-function updateUI() {
-  const shape = shapeEl.value;
-  const hollow = hollowEl.checked;
-
-  depthGroup.classList.toggle("hidden", shape !== "box");
-  innerDepth.classList.toggle("hidden", shape !== "box");
-  innerGroup.classList.toggle("hidden", !hollow);
+function updateUI(){
+depthGroup.classList.toggle("hidden",shape.value!=="box")
+innerDepth.classList.toggle("hidden",shape.value!=="box")
+innerGroup.classList.toggle("hidden",!hollow.checked)
 }
 
-function calc() {
-  let vol = volume(shapeEl.value, +wEl.value, +dEl.value, +hEl.value);
+function calc(){
 
-  if (hollowEl.checked) {
-    vol -= volume(shapeEl.value, +iwEl.value, +idEl.value, +ihEl.value);
-  }
+let vol=volume(shape.value,+w.value,+d.value,+h.value)
 
-  vol *= +countEl.value * (1 + +lossEl.value / 100);
-
-  const total = +plasterEl.value + +waterEl.value;
-  const plaster = vol * (+plasterEl.value / total);
-  const water = vol * (+waterEl.value / total);
-
-  result.innerHTML =
-    `体積：約 ${vol.toFixed(1)} cm³<br>
-     石膏：約 ${plaster.toFixed(1)} g<br>
-     水：約 ${water.toFixed(1)} g`;
+if(hollow.checked){
+vol-=volume(shape.value,+iw.value,+id.value,+ih.value)
 }
 
-const shapeEl = document.getElementById("shape");
-const countEl = document.getElementById("count");
-const lossEl = document.getElementById("loss");
-const wEl = document.getElementById("w");
-const dEl = document.getElementById("d");
-const hEl = document.getElementById("h");
-const hollowEl = document.getElementById("hollow");
-const iwEl = document.getElementById("iw");
-const idEl = document.getElementById("id");
-const ihEl = document.getElementById("ih");
-const plasterEl = document.getElementById("plaster");
-const waterEl = document.getElementById("water");
-const result = document.getElementById("result");
+vol*=+count.value*(1+ +loss.value/100)
 
-updateUI();
+/* ===== 新ロジック ===== */
+
+const yieldVal=+yield.value
+const mixWater=+mixWaterInput.value
+
+if(yieldVal<=0 || mixWater<=0){
+result.innerHTML="石膏情報を入力してください"
+return
+}
+
+const plasterKg=vol/yieldVal
+const waterMl=plasterKg*mixWater
+
+result.innerHTML=
+`完成体積：約 ${vol.toFixed(1)} cm³<br>
+石膏：約 ${(plasterKg*1000).toFixed(0)} g<br>
+水：約 ${waterMl.toFixed(0)} ml`
+}
+
+const shape=document.getElementById("shape")
+const count=document.getElementById("count")
+const loss=document.getElementById("loss")
+const w=document.getElementById("w")
+const d=document.getElementById("d")
+const h=document.getElementById("h")
+const hollow=document.getElementById("hollow")
+const iw=document.getElementById("iw")
+const id=document.getElementById("id")
+const ih=document.getElementById("ih")
+const mixWaterInput=document.getElementById("mixWater")
+const yield=document.getElementById("yield")
+const result=document.getElementById("result")
+const depthGroup=document.getElementById("depthGroup")
+const innerDepth=document.getElementById("innerDepth")
+const innerGroup=document.getElementById("innerGroup")
+
+updateUI()
 </script>
 </body>
 </html>
