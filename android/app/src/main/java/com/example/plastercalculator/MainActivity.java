@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
             double v1 = volume(shape, w, d, h);
 
 
-            resultText.setText("体積 = " + v1);
+            resultText.setText(String.format("体積 = %.2f", v1));
 
         });
 
